@@ -3,38 +3,61 @@ package org.springframework.samples.petclinic.owners.infrastructure.web.handler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.samples.petclinic.owners.domain.exception.DomainValidationException;
-import org.springframework.samples.petclinic.owners.domain.exception.DuplicatePetNameException;
 import org.springframework.samples.petclinic.owners.domain.exception.OwnerNotFoundException;
 import org.springframework.samples.petclinic.owners.domain.exception.PetNotFoundException;
 import org.springframework.samples.petclinic.owners.domain.exception.PetTypeNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice(basePackages = "org.springframework.samples.petclinic.owners.web")
 public class OwnerControllerAdvice {
 
-	@ExceptionHandler({DomainValidationException.class, DuplicatePetNameException.class})
-	public ResponseEntity<ErrorResponse> handleDomainValidationException(Exception ex) {
-		log.warn("Domain validation error caught: '{}'. Returning HTTP 400.", ex.getMessage());
-
-		var error = new ErrorResponse(
+	@ExceptionHandler({
+		IllegalArgumentException.class,
+		IllegalStateException.class
+	})
+	public ResponseEntity<ErrorResponse> handleDomainValidationException(RuntimeException ex) {
+		log.warn("Domain validation error: {}", ex.getMessage());
+		ErrorResponse error = new ErrorResponse(
 			HttpStatus.BAD_REQUEST.value(),
+			"Bad Request",
 			ex.getMessage(),
 			LocalDateTime.now()
 		);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
-	@ExceptionHandler({OwnerNotFoundException.class, PetTypeNotFoundException.class, PetNotFoundException.class})
-	public ResponseEntity<ErrorResponse> handleNotFoundException(Exception ex) {
-		log.warn("Resource not found error caught: '{}'. Returning HTTP 404.", ex.getMessage());
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+		String message = ex.getBindingResult().getFieldErrors().stream()
+			.map(error -> error.getField() + ": " + error.getDefaultMessage())
+			.collect(Collectors.joining(", "));
 
-		var error = new ErrorResponse(
+		log.warn("Validation failed: {}", message);
+		ErrorResponse error = new ErrorResponse(
+			HttpStatus.BAD_REQUEST.value(),
+			"Validation Failed",
+			message,
+			LocalDateTime.now()
+		);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+
+	@ExceptionHandler({
+		OwnerNotFoundException.class,
+		PetNotFoundException.class,
+		PetTypeNotFoundException.class
+	})
+	public ResponseEntity<ErrorResponse> handleNotFoundException(RuntimeException ex) {
+		log.warn("Resource not found: {}", ex.getMessage());
+		ErrorResponse error = new ErrorResponse(
 			HttpStatus.NOT_FOUND.value(),
+			"Not Found",
 			ex.getMessage(),
 			LocalDateTime.now()
 		);
@@ -42,12 +65,12 @@ public class OwnerControllerAdvice {
 	}
 
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
-		log.error("Unexpected internal server error occurred: '{}'", ex.getMessage(), ex);
-
-		var error = new ErrorResponse(
+	public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
+		log.error("Unexpected error occurred: ", ex);
+		ErrorResponse error = new ErrorResponse(
 			HttpStatus.INTERNAL_SERVER_ERROR.value(),
-			"An unexpected internal server error occurred",
+			"Internal Server Error",
+			"An unexpected error occurred processing your request.",
 			LocalDateTime.now()
 		);
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
@@ -55,6 +78,7 @@ public class OwnerControllerAdvice {
 
 	public record ErrorResponse(
 		int status,
+		String error,
 		String message,
 		LocalDateTime timestamp
 	) {}

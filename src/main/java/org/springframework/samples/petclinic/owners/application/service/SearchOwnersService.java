@@ -8,11 +8,13 @@ import org.springframework.samples.petclinic.owners.application.port.in.SearchOw
 import org.springframework.samples.petclinic.owners.application.port.out.OwnerRepository;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SearchOwnersService implements SearchOwnersUseCase {
 

@@ -12,6 +12,7 @@ public interface UpdatePetUseCase {
 		Long petId,
 		String name,
 		LocalDate birthDate,
-		Long typeId
+		Long typeId,
+		Long ownerId
 	) {}
 }
