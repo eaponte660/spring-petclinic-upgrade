@@ -8,7 +8,6 @@ public interface SearchOwnersUseCase {
 
 	record SearchOwnersQuery(
 		String lastName,
-		int page,
-		int size
+		PageRequest pageRequest
 	) {}
 }
