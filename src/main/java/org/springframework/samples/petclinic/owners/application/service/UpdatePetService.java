@@ -11,9 +11,11 @@ import org.springframework.samples.petclinic.owners.domain.exception.PetTypeNotF
 import org.springframework.samples.petclinic.owners.domain.model.Pet;
 import org.springframework.samples.petclinic.owners.domain.model.PetType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UpdatePetService implements UpdatePetUseCase {
 
@@ -30,8 +32,14 @@ public class UpdatePetService implements UpdatePetUseCase {
 				return new PetNotFoundException("Pet not found with id: " + command.petId());
 			});
 
+		if (!existingPet.getOwnerId().equals(command.ownerId())) {
+			log.warn("Security/Data integrity violation: Pet ID {} does not belong to owner ID {}",
+				command.petId(), command.ownerId());
+			throw new PetNotFoundException("The pet does not belong to the specified owner");
+		}
+
 		boolean nameExistsForOtherPet = petRepository.existsByOwnerIdAndNameIgnoreCaseAndIdNot(
-			existingPet.getOwnerId(),
+			command.ownerId(),
 			command.name(),
 			command.petId()
 		);

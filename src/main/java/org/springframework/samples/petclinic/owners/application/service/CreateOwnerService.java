@@ -6,9 +6,11 @@ import org.springframework.samples.petclinic.owners.application.port.in.CreateOw
 import org.springframework.samples.petclinic.owners.application.port.out.OwnerRepository;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CreateOwnerService implements CreateOwnerUseCase {
 

@@ -10,9 +10,11 @@ import org.springframework.samples.petclinic.owners.application.port.out.PetRepo
 import org.springframework.samples.petclinic.owners.domain.exception.OwnerNotFoundException;
 import org.springframework.samples.petclinic.owners.domain.model.Pet;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class FindPetsByOwnerService implements FindPetsByOwnerUseCase {
 

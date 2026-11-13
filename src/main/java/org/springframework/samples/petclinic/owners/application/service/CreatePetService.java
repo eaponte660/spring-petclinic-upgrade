@@ -12,9 +12,11 @@ import org.springframework.samples.petclinic.owners.domain.exception.PetTypeNotF
 import org.springframework.samples.petclinic.owners.domain.model.Pet;
 import org.springframework.samples.petclinic.owners.domain.model.PetType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CreatePetService implements CreatePetUseCase {
 
