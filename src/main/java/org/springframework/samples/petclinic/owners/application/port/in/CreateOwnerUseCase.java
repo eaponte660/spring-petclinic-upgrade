@@ -12,5 +12,9 @@ public interface CreateOwnerUseCase {
 		String address,
 		String city,
 		String telephone
-	) {}
+	) {
+		public String fullName() {
+			return firstName + " " + lastName;
+		}
+	}
 }

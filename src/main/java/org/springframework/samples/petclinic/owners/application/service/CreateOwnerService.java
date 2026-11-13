@@ -1,11 +1,13 @@
 package org.springframework.samples.petclinic.owners.application.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.petclinic.owners.application.port.in.CreateOwnerUseCase;
 import org.springframework.samples.petclinic.owners.application.port.out.OwnerRepository;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreateOwnerService implements CreateOwnerUseCase {
@@ -14,6 +16,7 @@ public class CreateOwnerService implements CreateOwnerUseCase {
 
 	@Override
 	public Owner createOwner(CreateOwnerCommand command) {
+		log.info("Processing create new owner: {}", command.fullName());
 
 		var newOwner = new Owner(
 			null,
@@ -24,6 +27,9 @@ public class CreateOwnerService implements CreateOwnerUseCase {
 			command.telephone()
 		);
 
-		return ownerRepository.save(newOwner);
+		newOwner = ownerRepository.save(newOwner);
+		log.info("Successfully created owner with ID: {}", newOwner.getId());
+
+		return newOwner;
 	}
 }
