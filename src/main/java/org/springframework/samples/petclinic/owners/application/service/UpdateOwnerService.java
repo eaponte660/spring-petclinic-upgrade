@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.samples.petclinic.owners.application.port.in.UpdateOwnerUseCase;
 import org.springframework.samples.petclinic.owners.application.port.out.OwnerRepository;
-import org.springframework.samples.petclinic.owners.domain.exception.DomainValidationException;
+import org.springframework.samples.petclinic.owners.domain.exception.OwnerNotFoundException;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class UpdateOwnerService implements UpdateOwnerUseCase {
 		Owner owner = ownerRepository.findById(command.id())
 			.orElseThrow(() -> {
 				log.warn("Failed to update: Owner with ID {} not found", command.id());
-				return new DomainValidationException("Owner not found with id: " + command.id());
+				return new OwnerNotFoundException("Owner not found with id: " + command.id());
 			});
 
 		owner.updateInfo(

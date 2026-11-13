@@ -4,8 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.owners.domain.exception.DomainValidationException;
+import org.springframework.samples.petclinic.owners.domain.exception.OwnerNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @RestControllerAdvice(basePackages = "org.springframework.samples.petclinic.owners.web")
@@ -16,4 +19,20 @@ public class OwnerControllerAdvice {
 		log.warn("Intento de operación con datos de dominio inválidos: {}", ex.getMessage());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
 	}
+
+	@ExceptionHandler(OwnerNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleOwnerNotFoundException(OwnerNotFoundException ex) {
+		ErrorResponse error = new ErrorResponse(
+			HttpStatus.NOT_FOUND.value(),
+			ex.getMessage(),
+			LocalDateTime.now()
+		);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+
+	public record ErrorResponse(
+		int status,
+		String message,
+		LocalDateTime timestamp
+	) {}
 }
