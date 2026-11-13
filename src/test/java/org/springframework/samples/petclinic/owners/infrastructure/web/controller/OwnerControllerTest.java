@@ -7,7 +7,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.owners.application.port.in.CreateOwnerUseCase;
 import org.springframework.samples.petclinic.owners.application.port.in.FindOwnerUseCase;
-import org.springframework.samples.petclinic.owners.application.port.in.PageResult;
+import org.springframework.samples.petclinic.shared.domain.model.PageResult;
 import org.springframework.samples.petclinic.owners.application.port.in.SearchOwnersUseCase;
 import org.springframework.samples.petclinic.owners.application.port.in.UpdateOwnerUseCase;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;

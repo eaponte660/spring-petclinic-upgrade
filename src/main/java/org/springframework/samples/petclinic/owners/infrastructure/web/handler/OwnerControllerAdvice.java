@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.owners.infrastructure.web.handler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.owners.domain.exception.DomainValidationException;
 import org.springframework.samples.petclinic.owners.domain.exception.OwnerNotFoundException;
 import org.springframework.samples.petclinic.owners.domain.exception.PetNotFoundException;
 import org.springframework.samples.petclinic.owners.domain.exception.PetTypeNotFoundException;
@@ -19,11 +20,12 @@ public class OwnerControllerAdvice {
 
 	@ExceptionHandler({
 		IllegalArgumentException.class,
-		IllegalStateException.class
+		IllegalStateException.class,
+		DomainValidationException.class
 	})
 	public ResponseEntity<ErrorResponse> handleDomainValidationException(RuntimeException ex) {
 		log.warn("Domain validation error: {}", ex.getMessage());
-		ErrorResponse error = new ErrorResponse(
+		var error = new ErrorResponse(
 			HttpStatus.BAD_REQUEST.value(),
 			"Bad Request",
 			ex.getMessage(),
@@ -39,7 +41,7 @@ public class OwnerControllerAdvice {
 			.collect(Collectors.joining(", "));
 
 		log.warn("Validation failed: {}", message);
-		ErrorResponse error = new ErrorResponse(
+		var error = new ErrorResponse(
 			HttpStatus.BAD_REQUEST.value(),
 			"Validation Failed",
 			message,
@@ -55,7 +57,7 @@ public class OwnerControllerAdvice {
 	})
 	public ResponseEntity<ErrorResponse> handleNotFoundException(RuntimeException ex) {
 		log.warn("Resource not found: {}", ex.getMessage());
-		ErrorResponse error = new ErrorResponse(
+		var error = new ErrorResponse(
 			HttpStatus.NOT_FOUND.value(),
 			"Not Found",
 			ex.getMessage(),
@@ -67,7 +69,7 @@ public class OwnerControllerAdvice {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
 		log.error("Unexpected error occurred: ", ex);
-		ErrorResponse error = new ErrorResponse(
+		var error = new ErrorResponse(
 			HttpStatus.INTERNAL_SERVER_ERROR.value(),
 			"Internal Server Error",
 			"An unexpected error occurred processing your request.",
