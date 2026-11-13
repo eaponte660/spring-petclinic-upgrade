@@ -29,7 +29,7 @@ public class PetRepositoryAdapter implements PetRepository {
 		var ownerEntity = springDataOwnerRepository.findById(pet.getOwnerId())
 			.orElseThrow(() -> new IllegalArgumentException("Owner not found with id: " + pet.getOwnerId()));
 
-		var typeEntity = springDataPetTypeRepository.findById(pet.getId())
+		var typeEntity = springDataPetTypeRepository.findById(pet.getType().id())
 			.orElseThrow(() -> new IllegalArgumentException("Pet type not found with id: " + pet.getType().id()));
 
 		var entity = petEntityMapper.toEntity(pet, ownerEntity, typeEntity);
