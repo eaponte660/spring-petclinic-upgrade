@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.owners.application.port.out;
 
+import org.springframework.samples.petclinic.owners.application.port.in.PageRequest;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface OwnerRepository {
 
 	Optional<Owner> findById(Long id);
 
-	List<Owner> findByLastNameContainingIgnoreCase(String lastName, int page, int size);
+	List<Owner> findByLastNameContainingIgnoreCase(String lastName, PageRequest pageRequest);
 
 	long countByLastNameContainingIgnoreCase(String lastName);
 }

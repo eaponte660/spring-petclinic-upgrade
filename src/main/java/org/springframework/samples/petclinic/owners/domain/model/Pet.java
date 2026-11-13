@@ -15,20 +15,22 @@ public class Pet {
 	private String name;
 	private LocalDate birthDate;
 	private PetType type;
+	private Long ownerId;
 
-	public Pet(Long id, String name, LocalDate birthDate, PetType type) {
-		validateAndAssign(name, birthDate, type);
+	public Pet(Long id, String name, LocalDate birthDate, PetType type, Long ownerId) {
+		validateAndAssign(name, birthDate, type, ownerId);
 		this.id = id;
 	}
 
 	public void updateInfo(String name, LocalDate birthDate, PetType type) {
-		validateAndAssign(name, birthDate, type);
+		validateAndAssign(name, birthDate, type, this.ownerId);
 	}
 
-	private void validateAndAssign(String name, LocalDate birthDate, PetType type) {
+	private void validateAndAssign(String name, LocalDate birthDate, PetType type, Long ownerId) {
 		this.name = notBlank(name, "Name");
 		this.birthDate = validateBirthDate(birthDate);
 		this.type = Objects.requireNonNull(type, "Pet type must not be null");
+		this.ownerId = Objects.requireNonNull(ownerId, "Owner ID must not be null");
 	}
 
 	private LocalDate validateBirthDate(LocalDate birthDate) {

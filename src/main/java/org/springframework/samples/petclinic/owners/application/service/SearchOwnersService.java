@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.owners.application.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.samples.petclinic.owners.application.port.in.PageRequest;
 import org.springframework.samples.petclinic.owners.application.port.in.PageResult;
 import org.springframework.samples.petclinic.owners.application.port.in.SearchOwnersUseCase;
 import org.springframework.samples.petclinic.owners.application.port.out.OwnerRepository;
@@ -20,26 +21,26 @@ public class SearchOwnersService implements SearchOwnersUseCase {
 	@Override
 	public PageResult<Owner> searchOwners(SearchOwnersQuery query) {
 		String lastNameToSearch = query.lastName() == null ? "" : query.lastName();
+		PageRequest pageRequest = query.pageRequest();
 
 		log.info("Searching owners with lastName filter: '{}', page: {}, size: {}",
-			lastNameToSearch, query.page(), query.size());
+			lastNameToSearch, pageRequest.page(), pageRequest.size());
 
 		List<Owner> owners = ownerRepository.findByLastNameContainingIgnoreCase(
 			lastNameToSearch,
-			query.page(),
-			query.size()
+			pageRequest
 		);
 
 		long totalElements = ownerRepository.countByLastNameContainingIgnoreCase(lastNameToSearch);
-		int totalPages = query.size() > 0 ? (int) Math.ceil((double) totalElements / query.size()) : 0;
+		int totalPages = (int) Math.ceil((double) totalElements / pageRequest.size());
 
 		log.info("Successfully retrieved {} owners out of {} total elements across {} pages",
 			owners.size(), totalElements, totalPages);
 
 		return new PageResult<>(
 			owners,
-			query.page(),
-			query.size(),
+			pageRequest.page(),
+			pageRequest.size(),
 			totalElements,
 			totalPages
 		);
