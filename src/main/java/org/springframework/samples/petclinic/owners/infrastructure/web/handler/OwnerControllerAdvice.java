@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.owners.domain.exception.DomainValidationException;
 import org.springframework.samples.petclinic.owners.domain.exception.DuplicatePetNameException;
 import org.springframework.samples.petclinic.owners.domain.exception.OwnerNotFoundException;
+import org.springframework.samples.petclinic.owners.domain.exception.PetNotFoundException;
 import org.springframework.samples.petclinic.owners.domain.exception.PetTypeNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -28,7 +29,7 @@ public class OwnerControllerAdvice {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
-	@ExceptionHandler({OwnerNotFoundException.class, PetTypeNotFoundException.class})
+	@ExceptionHandler({OwnerNotFoundException.class, PetTypeNotFoundException.class, PetNotFoundException.class})
 	public ResponseEntity<ErrorResponse> handleNotFoundException(Exception ex) {
 		log.warn("Resource not found error caught: '{}'. Returning HTTP 404.", ex.getMessage());
 
