@@ -3,6 +3,9 @@ package org.springframework.samples.petclinic.owners.domain.model;
 import lombok.Getter;
 import org.springframework.samples.petclinic.owners.domain.exception.DomainValidationException;
 
+import static org.springframework.samples.petclinic.owners.domain.model.DomainGuard.notBlank;
+import static org.springframework.samples.petclinic.owners.domain.model.DomainGuard.notBlankAndMax;
+
 @Getter
 public class Owner {
 
@@ -23,27 +26,15 @@ public class Owner {
 	}
 
 	private void validateAndAssign(String firstName, String lastName, String address, String city, String telephone) {
-		this.firstName = validateField(firstName, "First name", 30);
-		this.lastName = validateField(lastName, "Last name", 30);
-		this.address = validateField(address, "Address", 255);
-		this.city = validateField(city, "City", 80);
+		this.firstName = notBlankAndMax(firstName, "First name", 30);
+		this.lastName = notBlankAndMax(lastName, "Last name", 30);
+		this.address = notBlankAndMax(address, "Address", 255);
+		this.city = notBlankAndMax(city, "City", 80);
 		this.telephone = validateTelephone(telephone);
 	}
 
-	private String validateField(String value, String fieldName, int maxLength) {
-		if (value == null || value.isBlank()) {
-			throw new DomainValidationException(fieldName + " must not be blank");
-		}
-		if (value.length() > maxLength) {
-			throw new DomainValidationException(fieldName + " must not exceed " + maxLength + " characters");
-		}
-		return value;
-	}
-
 	private String validateTelephone(String telephone) {
-		if (telephone == null || telephone.isBlank()) {
-			throw new DomainValidationException("Telephone must not be blank");
-		}
+		notBlank(telephone, "Phone Number");
 
 		if (!telephone.matches("\\d{10}")) {
 			throw new DomainValidationException("Telephone must be exactly 10 digits");
