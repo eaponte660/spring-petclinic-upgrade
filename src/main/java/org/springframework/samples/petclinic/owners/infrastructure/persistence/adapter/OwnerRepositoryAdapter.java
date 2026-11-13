@@ -3,7 +3,7 @@ package org.springframework.samples.petclinic.owners.infrastructure.persistence.
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.samples.petclinic.owners.application.port.in.PageRequest;
+import org.springframework.samples.petclinic.shared.domain.model.PageRequest;
 import org.springframework.samples.petclinic.owners.application.port.out.OwnerRepository;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;
 import org.springframework.samples.petclinic.owners.infrastructure.persistence.mapper.OwnerEntityMapper;

@@ -2,8 +2,8 @@ package org.springframework.samples.petclinic.owners.application.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.samples.petclinic.owners.application.port.in.PageRequest;
-import org.springframework.samples.petclinic.owners.application.port.in.PageResult;
+import org.springframework.samples.petclinic.shared.domain.model.PageRequest;
+import org.springframework.samples.petclinic.shared.domain.model.PageResult;
 import org.springframework.samples.petclinic.owners.application.port.in.SearchOwnersUseCase;
 import org.springframework.samples.petclinic.owners.application.port.out.OwnerRepository;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;

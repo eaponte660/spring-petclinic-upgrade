@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.owners.application.port.out;
 
-import org.springframework.samples.petclinic.owners.application.port.in.PageRequest;
-import org.springframework.samples.petclinic.owners.application.port.in.PageResult;
+import org.springframework.samples.petclinic.shared.domain.model.PageRequest;
+import org.springframework.samples.petclinic.shared.domain.model.PageResult;
 import org.springframework.samples.petclinic.owners.domain.model.Pet;
 
 import java.util.Optional;
