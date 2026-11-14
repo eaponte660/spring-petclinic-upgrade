@@ -3,6 +3,8 @@ package org.springframework.samples.petclinic.owners.domain.model;
 import lombok.Getter;
 import org.springframework.samples.petclinic.owners.domain.exception.DomainValidationException;
 
+import java.util.List;
+
 import static org.springframework.samples.petclinic.owners.domain.model.DomainGuard.notBlank;
 import static org.springframework.samples.petclinic.owners.domain.model.DomainGuard.notBlankAndMax;
 
@@ -15,10 +17,12 @@ public class Owner {
 	private String address;
 	private String city;
 	private String telephone;
+	private List<Pet> pets;
 
-	public Owner(Long id, String firstName, String lastName, String address, String city, String telephone) {
+	public Owner(Long id, String firstName, String lastName, String address, String city, String telephone, List<Pet> pets) {
 		validateAndAssign(firstName, lastName, address, city, telephone);
 		this.id = id;
+		this.pets = pets;
 	}
 
 	public void updateInfo(String firstName, String lastName, String address, String city, String telephone) {

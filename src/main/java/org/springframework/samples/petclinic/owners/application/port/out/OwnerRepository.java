@@ -12,6 +12,8 @@ public interface OwnerRepository {
 
 	Optional<Owner> findById(Long id);
 
+	Optional<Owner> findByIdWithPets(Long id);
+
 	List<Owner> findByLastNameContainingIgnoreCase(String lastName, PageRequest pageRequest);
 
 	long countByLastNameContainingIgnoreCase(String lastName);

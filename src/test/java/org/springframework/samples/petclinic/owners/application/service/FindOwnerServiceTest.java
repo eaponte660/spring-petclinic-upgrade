@@ -11,6 +11,7 @@ import org.springframework.samples.petclinic.owners.application.port.out.OwnerRe
 import org.springframework.samples.petclinic.owners.domain.exception.OwnerNotFoundException;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,10 +47,11 @@ class FindOwnerServiceTest {
 			LAST_NAME,
 			ADDRESS,
 			CITY,
-			TELEPHONE
+			TELEPHONE,
+			List.of()
 		);
 
-		when(ownerRepository.findById(OWNER_ID)).thenReturn(Optional.of(expectedOwner));
+		when(ownerRepository.findByIdWithPets(OWNER_ID)).thenReturn(Optional.of(expectedOwner));
 
 		// Act
 		Owner result = findOwnerService.findOwnerById(query);
@@ -63,7 +65,7 @@ class FindOwnerServiceTest {
 		assertThat(result.getCity()).isEqualTo(CITY);
 		assertThat(result.getTelephone()).isEqualTo(TELEPHONE);
 
-		verify(ownerRepository, times(1)).findById(OWNER_ID);
+		verify(ownerRepository, times(1)).findByIdWithPets(OWNER_ID);
 	}
 
 	@Test
@@ -71,13 +73,13 @@ class FindOwnerServiceTest {
 	void shouldThrowExceptionWhenOwnerNotFound() {
 		// Arrange
 		var query = new FindOwnerUseCase.FindOwnerQuery(OWNER_ID);
-		when(ownerRepository.findById(OWNER_ID)).thenReturn(Optional.empty());
+		when(ownerRepository.findByIdWithPets(OWNER_ID)).thenReturn(Optional.empty());
 
 		// Act & Assert
 		assertThatThrownBy(() -> findOwnerService.findOwnerById(query))
 			.isInstanceOf(OwnerNotFoundException.class)
 			.hasMessageContaining("Owner not found with id: " + OWNER_ID);
 
-		verify(ownerRepository, times(1)).findById(OWNER_ID);
+		verify(ownerRepository, times(1)).findByIdWithPets(OWNER_ID);
 	}
 }

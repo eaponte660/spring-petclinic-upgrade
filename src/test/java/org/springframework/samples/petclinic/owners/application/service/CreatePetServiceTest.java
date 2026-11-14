@@ -18,6 +18,7 @@ import org.springframework.samples.petclinic.owners.domain.model.Pet;
 import org.springframework.samples.petclinic.owners.domain.model.PetType;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,7 +60,7 @@ class CreatePetServiceTest {
 	void shouldCreatePetSuccessfully() {
 		// Arrange
 		var command = new CreatePetUseCase.CreatePetCommand(OWNER_ID, PET_NAME, BIRTH_DATE, TYPE_ID);
-		var owner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE);
+		var owner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE, List.of());
 		var petType = new PetType(TYPE_ID, "Dog");
 		var savedPet = new Pet(PET_ID, PET_NAME, BIRTH_DATE, petType, OWNER_ID);
 
@@ -105,7 +106,7 @@ class CreatePetServiceTest {
 	void shouldThrowExceptionWhenPetNameAlreadyExists() {
 		// Arrange
 		var command = new CreatePetUseCase.CreatePetCommand(OWNER_ID, PET_NAME, BIRTH_DATE, TYPE_ID);
-		var owner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE);
+		var owner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE, List.of());
 
 		when(ownerRepository.findById(OWNER_ID)).thenReturn(Optional.of(owner));
 		when(petRepository.existsByOwnerIdAndNameIgnoreCase(OWNER_ID, PET_NAME)).thenReturn(true);
@@ -125,7 +126,7 @@ class CreatePetServiceTest {
 	void shouldThrowExceptionWhenPetTypeNotFound() {
 		// Arrange
 		var command = new CreatePetUseCase.CreatePetCommand(OWNER_ID, PET_NAME, BIRTH_DATE, TYPE_ID);
-		var owner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE);
+		var owner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE, List.of());
 
 		when(ownerRepository.findById(OWNER_ID)).thenReturn(Optional.of(owner));
 		when(petRepository.existsByOwnerIdAndNameIgnoreCase(OWNER_ID, PET_NAME)).thenReturn(false);

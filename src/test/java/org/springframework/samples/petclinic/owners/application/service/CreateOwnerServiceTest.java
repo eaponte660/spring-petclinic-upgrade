@@ -10,6 +10,8 @@ import org.springframework.samples.petclinic.owners.application.port.in.CreateOw
 import org.springframework.samples.petclinic.owners.application.port.out.OwnerRepository;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -50,7 +52,8 @@ class CreateOwnerServiceTest {
 			LAST_NAME,
 			ADDRESS,
 			CITY,
-			TELEPHONE
+			TELEPHONE,
+			List.of()
 		);
 
 		when(ownerRepository.save(any(Owner.class))).thenReturn(savedOwner);

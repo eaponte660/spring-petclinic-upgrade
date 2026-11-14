@@ -8,6 +8,8 @@ import org.springframework.samples.petclinic.owners.domain.model.Owner;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 @Slf4j
 @Service
 @Transactional
@@ -26,7 +28,8 @@ public class CreateOwnerService implements CreateOwnerUseCase {
 			command.lastName(),
 			command.address(),
 			command.city(),
-			command.telephone()
+			command.telephone(),
+			new ArrayList<>()
 		);
 
 		newOwner = ownerRepository.save(newOwner);

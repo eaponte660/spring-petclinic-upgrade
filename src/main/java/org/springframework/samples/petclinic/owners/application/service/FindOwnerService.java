@@ -21,7 +21,7 @@ public class FindOwnerService implements FindOwnerUseCase {
 	public Owner findOwnerById(FindOwnerQuery query) {
 		log.info("Searching for owner with ID: {}", query.id());
 
-		Owner owner = ownerRepository.findById(query.id())
+		Owner owner = ownerRepository.findByIdWithPets(query.id())
 			.orElseThrow(() -> {
 				log.warn("Owner with ID: {} not found", query.id());
 				return new OwnerNotFoundException("Owner not found with id: " + query.id());

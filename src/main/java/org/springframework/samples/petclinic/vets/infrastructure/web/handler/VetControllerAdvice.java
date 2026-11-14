@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RestControllerAdvice(basePackages = "org.springframework.samples.petclinic.vets.web")
+@RestControllerAdvice(basePackages = "org.springframework.samples.petclinic.vets.infrastructure.web.controller")
 public class VetControllerAdvice {
 
 	@ExceptionHandler({

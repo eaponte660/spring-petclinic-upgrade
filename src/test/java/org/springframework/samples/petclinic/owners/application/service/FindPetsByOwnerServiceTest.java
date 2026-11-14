@@ -45,7 +45,7 @@ class FindPetsByOwnerServiceTest {
 	void shouldFindPetsByOwnerSuccessfully() {
 		// Arrange
 		var pageRequest = new PageRequest(0, 10);
-		var owner = new Owner(OWNER_ID, "John", "Doe", "Street", "City", "1234567890");
+		var owner = new Owner(OWNER_ID, "John", "Doe", "Street", "City", "1234567890", List.of());
 		var petType = new PetType(1L, "Dog");
 		var pet = new Pet(10L, "Firulais", LocalDate.of(2020, 1, 1), petType, OWNER_ID);
 

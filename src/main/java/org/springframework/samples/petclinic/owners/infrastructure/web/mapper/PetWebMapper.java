@@ -23,7 +23,7 @@ public class PetWebMapper {
 			pet.getName(),
 			pet.getBirthDate(),
 			typeResponse,
-			pet.getOwnerId()
+			null
 		);
 	}
 }
