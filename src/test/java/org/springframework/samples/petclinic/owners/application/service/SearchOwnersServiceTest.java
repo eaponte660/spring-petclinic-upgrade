@@ -37,7 +37,7 @@ class SearchOwnersServiceTest {
 		var pageRequest = new PageRequest(0, 10);
 		var query = new SearchOwnersUseCase.SearchOwnersQuery(LAST_NAME, pageRequest);
 
-		var owner = new Owner(1L, "John", LAST_NAME, "Street", "City", "1234567890");
+		var owner = new Owner(1L, "John", LAST_NAME, "Street", "City", "1234567890", List.of());
 		List<Owner> ownersList = List.of(owner);
 
 		when(ownerRepository.findByLastNameContainingIgnoreCase(LAST_NAME, pageRequest)).thenReturn(ownersList);
@@ -64,7 +64,7 @@ class SearchOwnersServiceTest {
 		var pageRequest = new PageRequest(0, 10);
 		var query = new SearchOwnersUseCase.SearchOwnersQuery(null, pageRequest);
 
-		var owner = new Owner(1L, "John", "Doe", "Street", "City", "1234567890");
+		var owner = new Owner(1L, "John", "Doe", "Street", "City", "1234567890", List.of());
 		List<Owner> ownersList = List.of(owner);
 
 		when(ownerRepository.findByLastNameContainingIgnoreCase("", pageRequest)).thenReturn(ownersList);

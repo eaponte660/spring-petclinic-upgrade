@@ -8,6 +8,7 @@ import org.springframework.samples.petclinic.owners.infrastructure.persistence.m
 import org.springframework.samples.petclinic.owners.infrastructure.persistence.repository.SpringDataPetTypeRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -23,5 +24,11 @@ public class PetTypeRepositoryAdapter implements PetTypeRepository {
 		log.debug("Finding pet type by ID: {}", id);
 		return springDataPetTypeRepository.findById(id)
 			.map(petTypeEntityMapper::toDomain);
+	}
+
+	@Override
+	public List<PetType> findAll() {
+		return springDataPetTypeRepository.findAll().stream()
+			.map(petTypeEntityMapper::toDomain).toList();
 	}
 }

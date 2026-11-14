@@ -35,6 +35,12 @@ public class OwnerRepositoryAdapter implements OwnerRepository {
 	}
 
 	@Override
+	public Optional<Owner> findByIdWithPets(Long id) {
+		return springDataOwnerRepository.findByIdWithPets(id)
+			.map(ownerEntityMapper::toDomain);
+	}
+
+	@Override
 	public List<Owner> findByLastNameContainingIgnoreCase(String lastName, PageRequest sharedPageRequest) {
 		// Convertimos nuestro record compartido PageRequest al Pageable de Spring Data
 		Pageable pageable = org.springframework.data.domain.PageRequest

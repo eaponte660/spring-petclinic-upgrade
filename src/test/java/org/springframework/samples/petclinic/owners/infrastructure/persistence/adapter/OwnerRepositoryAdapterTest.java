@@ -46,10 +46,10 @@ class OwnerRepositoryAdapterTest {
 	@DisplayName("Should successfully save owner by mapping to entity and back to domain")
 	void shouldSaveOwnerSuccessfully() {
 		// Arrange
-		var domainOwner = new Owner(null, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE);
+		var domainOwner = new Owner(null, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE, List.of());
 		var ownerEntity = new OwnerJpaEntity();
 		var savedEntity = new OwnerJpaEntity();
-		var expectedDomainOwner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE);
+		var expectedDomainOwner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE, List.of());
 
 		when(ownerEntityMapper.toEntity(domainOwner)).thenReturn(ownerEntity);
 		when(springDataOwnerRepository.save(ownerEntity)).thenReturn(savedEntity);
@@ -73,7 +73,7 @@ class OwnerRepositoryAdapterTest {
 	void shouldFindOwnerByIdSuccessfully() {
 		// Arrange
 		var ownerEntity = new OwnerJpaEntity();
-		var expectedDomainOwner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE);
+		var expectedDomainOwner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE, List.of());
 
 		when(springDataOwnerRepository.findById(OWNER_ID)).thenReturn(Optional.of(ownerEntity));
 		when(ownerEntityMapper.toDomain(ownerEntity)).thenReturn(expectedDomainOwner);
@@ -111,7 +111,7 @@ class OwnerRepositoryAdapterTest {
 		// Arrange
 		var sharedPageRequest = new PageRequest(0, 10);
 		var ownerEntity = new OwnerJpaEntity();
-		var expectedDomainOwner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE);
+		var expectedDomainOwner = new Owner(OWNER_ID, FIRST_NAME, LAST_NAME, ADDRESS, CITY, TELEPHONE, List.of());
 
 		Pageable expectedPageable = org.springframework.data.domain.PageRequest.of(0, 10, Sort.by("lastName").ascending());
 		List<OwnerJpaEntity> ownerEntities = List.of(ownerEntity);

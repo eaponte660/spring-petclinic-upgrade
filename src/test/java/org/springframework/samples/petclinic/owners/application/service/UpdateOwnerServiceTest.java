@@ -11,6 +11,7 @@ import org.springframework.samples.petclinic.owners.application.port.out.OwnerRe
 import org.springframework.samples.petclinic.owners.domain.exception.OwnerNotFoundException;
 import org.springframework.samples.petclinic.owners.domain.model.Owner;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,7 +57,8 @@ class UpdateOwnerServiceTest {
 			"OldLastName",
 			"OldAddress",
 			"OldCity",
-			"0000000000"
+			"0000000000",
+			List.of()
 		);
 
 		when(ownerRepository.findById(OWNER_ID)).thenReturn(Optional.of(existingOwner));

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RestControllerAdvice(basePackages = "org.springframework.samples.petclinic.owners.web")
+@RestControllerAdvice(basePackages = "org.springframework.samples.petclinic.owners.infrastructure.web.controller")
 public class OwnerControllerAdvice {
 
 	@ExceptionHandler({

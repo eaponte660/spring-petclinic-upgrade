@@ -11,9 +11,13 @@ import org.springframework.samples.petclinic.owners.infrastructure.persistence.e
 import org.springframework.samples.petclinic.owners.infrastructure.persistence.mapper.PetTypeEntityMapper;
 import org.springframework.samples.petclinic.owners.infrastructure.persistence.repository.SpringDataPetTypeRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -71,5 +75,30 @@ class PetTypeRepositoryAdapterTest {
 
 		verify(springDataPetTypeRepository).findById(id);
 		verifyNoInteractions(petTypeEntityMapper);
+	}
+
+	@Test
+	void shouldReturnAllPetTypesMappedToDomain() {
+		// Given
+		PetTypeJpaEntity jpaEntity = new PetTypeJpaEntity();
+		jpaEntity.setId(1L);
+		jpaEntity.setName("dog");
+
+		PetType domainModel = new PetType(1L, "dog");
+
+		when(springDataPetTypeRepository.findAll()).thenReturn(List.of(jpaEntity));
+		when(petTypeEntityMapper.toDomain(jpaEntity)).thenReturn(domainModel);
+
+		// When
+		List<PetType> result = petTypeRepositoryAdapter.findAll();
+
+		// Then
+		assertNotNull(result);
+		assertEquals(1, result.size());
+		assertEquals(1L, result.getFirst().id());
+		assertEquals("dog", result.getFirst().name());
+
+		verify(springDataPetTypeRepository, times(1)).findAll();
+		verify(petTypeEntityMapper, times(1)).toDomain(jpaEntity);
 	}
 }

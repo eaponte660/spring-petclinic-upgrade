@@ -61,8 +61,8 @@ class OwnerControllerTest {
 	void shouldCreateOwnerSuccessfully() throws Exception {
 		// Arrange
 		var request = new OwnerRequest("John", "Doe", "123 Main St", "Springfield", "1234567890");
-		var domainOwner = new Owner(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890");
-		var responseDto = new OwnerResponse(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890");
+		var domainOwner = new Owner(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890", List.of());
+		var responseDto = new OwnerResponse(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890", List.of());
 
 		when(createOwnerUseCase.createOwner(any(CreateOwnerUseCase.CreateOwnerCommand.class))).thenReturn(domainOwner);
 		when(ownerWebMapper.toResponse(domainOwner)).thenReturn(responseDto);
@@ -83,8 +83,8 @@ class OwnerControllerTest {
 	void shouldUpdateOwnerSuccessfully() throws Exception {
 		// Arrange
 		var request = new OwnerRequest("John", "Doe", "123 Main St", "Springfield", "1234567890");
-		var domainOwner = new Owner(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890");
-		var responseDto = new OwnerResponse(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890");
+		var domainOwner = new Owner(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890", List.of());
+		var responseDto = new OwnerResponse(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890", List.of());
 
 		when(updateOwnerUseCase.updateOwner(any(UpdateOwnerUseCase.UpdateOwnerCommand.class))).thenReturn(domainOwner);
 		when(ownerWebMapper.toResponse(domainOwner)).thenReturn(responseDto);
@@ -104,8 +104,8 @@ class OwnerControllerTest {
 	@DisplayName("GET /api/v1/owners/{ownerId} - Should find owner by ID successfully")
 	void shouldFindOwnerByIdSuccessfully() throws Exception {
 		// Arrange
-		var domainOwner = new Owner(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890");
-		var responseDto = new OwnerResponse(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890");
+		var domainOwner = new Owner(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890", List.of());
+		var responseDto = new OwnerResponse(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890", List.of());
 
 		when(findOwnerUseCase.findOwnerById(any(FindOwnerUseCase.FindOwnerQuery.class))).thenReturn(domainOwner);
 		when(ownerWebMapper.toResponse(domainOwner)).thenReturn(responseDto);
@@ -122,8 +122,8 @@ class OwnerControllerTest {
 	@DisplayName("GET /api/v1/owners - Should search owners with pagination successfully")
 	void shouldSearchOwnersSuccessfully() throws Exception {
 		// Arrange
-		var domainOwner = new Owner(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890");
-		var responseDto = new OwnerResponse(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890");
+		var domainOwner = new Owner(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890", List.of());
+		var responseDto = new OwnerResponse(OWNER_ID, "John", "Doe", "123 Main St", "Springfield", "1234567890", List.of());
 		var domainPage = new PageResult<>(List.of(domainOwner), 0, 10, 1L, 1);
 
 		when(searchOwnersUseCase.searchOwners(any(SearchOwnersUseCase.SearchOwnersQuery.class))).thenReturn(domainPage);
